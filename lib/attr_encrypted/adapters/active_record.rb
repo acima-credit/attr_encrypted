@@ -136,8 +136,11 @@ if defined?(ActiveRecord::Base)
     end
   end
 
-  ActiveSupport.on_load(:active_record) do
-    extend AttrEncrypted
-    extend AttrEncrypted::Adapters::ActiveRecord
-  end
+  # ActiveSupport.on_load(:active_record) do
+  #   extend AttrEncrypted
+  #   extend AttrEncrypted::Adapters::ActiveRecord
+  # end
+  
+  ActiveRecord::Base.extend AttrEncrypted
+  ActiveRecord::Base.extend AttrEncrypted::Adapters::ActiveRecord
 end
