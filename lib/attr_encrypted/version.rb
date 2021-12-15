@@ -13,7 +13,7 @@ module AttrEncrypted
     #
     #   Version.string # '1.0.2'
     def self.string
-      [MAJOR, MINOR, PATCH].join('.')
+      [MAJOR, MINOR, PATCH, 'lms'].join('.')
     end
   end
 end
