@@ -20,7 +20,6 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.metadata['allowed_push_host'] = 'https://rubygems.pkg.github.com/acima-credit'
 
-  s.has_rdoc = false
   s.rdoc_options = ['--line-numbers', '--inline-source', '--main', 'README.rdoc']
 
   s.require_paths = ['lib']
