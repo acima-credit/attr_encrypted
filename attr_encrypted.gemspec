@@ -8,7 +8,14 @@ require 'date'
 
 Gem::Specification.new do |s|
   s.name    = 'attr_encrypted'
-  s.version = AttrEncrypted::Version.string
+  current_branch = `git branch --remote --contains | sed "s|[[:space:]]*origin/||"`.strip
+  branch_commit = `git rev-parse HEAD`.strip[0..6]
+
+  if current_branch == 'master'
+    spec.version = AttrEncrypted::Version.strin
+  else
+    spec.version = "#{AttrEncrypted::Version.strin}-#{branch_commit}"
+  end
   s.date    = Date.today
 
   s.summary     = 'Encrypt and decrypt attributes'
