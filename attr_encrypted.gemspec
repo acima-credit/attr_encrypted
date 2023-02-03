@@ -12,9 +12,9 @@ Gem::Specification.new do |s|
   branch_commit = `git rev-parse HEAD`.strip[0..6]
 
   if current_branch == 'master'
-    s.version = AttrEncrypted::Version.strin
+    s.version = AttrEncrypted::Version.string
   else
-    s.version = "#{AttrEncrypted::Version.strin}-#{branch_commit}"
+    s.version = "#{AttrEncrypted::Version.string}-#{branch_commit}"
   end
   s.date    = Date.today
 
