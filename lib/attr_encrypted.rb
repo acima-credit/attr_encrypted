@@ -5,7 +5,7 @@ require 'encryptor'
 # Adds attr_accessors that encrypt and decrypt an object's attributes
 module AttrEncrypted
   autoload :Version, 'attr_encrypted/version'
-
+  # trigger code triage
   def self.extended(base) # :nodoc:
     base.class_eval do
       include InstanceMethods
