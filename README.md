@@ -1,17 +1,17 @@
 # attr_encrypted
-[![Build Status](https://secure.travis-ci.org/attr-encrypted/attr_encrypted.svg)](https://travis-ci.org/attr-encrypted/attr_encrypted) [![Test Coverage](https://codeclimate.com/github/attr-encrypted/attr_encrypted/badges/coverage.svg)](https://codeclimate.com/github/attr-encrypted/attr_encrypted/coverage) [![Code Climate](https://codeclimate.com/github/attr-encrypted/attr_encrypted/badges/gpa.svg)](https://codeclimate.com/github/attr-encrypted/attr_encrypted) [![Gem Version](https://badge.fury.io/rb/attr_encrypted.svg)](https://badge.fury.io/rb/attr_encrypted) [![security](https://hakiri.io/github/attr-encrypted/attr_encrypted/master.svg)](https://hakiri.io/github/attr-encrypted/attr_encrypted/master)
+
+![workflow](https://github.com/attr-encrypted/attr_encrypted/actions/workflows/CI.yml/badge.svg) [![Gem Version](https://badge.fury.io/rb/attr_encrypted.svg)](https://badge.fury.io/rb/attr_encrypted)
 
 Generates attr_accessors that transparently encrypt and decrypt attributes.
 
-It works with ANY class, however, you get a few extra features when you're using it with `ActiveRecord`, `DataMapper`, or `Sequel`.
-
+It works with ANY class, however, you get a few extra features when you're using it with `ActiveRecord` or `Sequel`.
 
 ## Installation
 
 Add attr_encrypted to your gemfile:
 
 ```ruby
-  gem "attr_encrypted", "~> 3.1.0"
+  gem "attr_encrypted"
 ```
 
 Then install the gem:
@@ -22,7 +22,7 @@ Then install the gem:
 
 ## Usage
 
-If you're using an ORM like `ActiveRecord`, `DataMapper`, or `Sequel`, using attr_encrypted is easy:
+If you're using an ORM like `ActiveRecord` or `Sequel`, using attr_encrypted is easy:
 
 ```ruby
   class User
@@ -363,7 +363,7 @@ NOTE: This only works if all records are encrypted with the same encryption key 
 __NOTE: This feature is deprecated and will be removed in the next major release.__
 
 
-### DataMapper and Sequel
+### Sequel
 
 #### Default options
 
@@ -409,7 +409,7 @@ Then modify your models using attr\_encrypted to account for the changes in defa
 
 ## Upgrading from attr_encrypted v2.x to v3.x
 
-A bug was discovered in Encryptor v2.0.0 that inccorectly set the IV when using an AES-\*-GCM algorithm. Unfornately fixing this major security issue results in the inability to decrypt records encrypted using an AES-*-GCM algorithm from Encryptor v2.0.0. Please see [Upgrading to Encryptor v3.0.0](https://github.com/attr-encrypted/encryptor#upgrading-from-v200-to-v300) for more info.
+A bug was discovered in Encryptor v2.0.0 that incorrectly set the IV when using an AES-\*-GCM algorithm. Unfornately fixing this major security issue results in the inability to decrypt records encrypted using an AES-*-GCM algorithm from Encryptor v2.0.0. Please see [Upgrading to Encryptor v3.0.0](https://github.com/attr-encrypted/encryptor#upgrading-from-v200-to-v300) for more info.
 
 It is strongly advised that you re-encrypt your data encrypted with Encryptor v2.0.0. However, you'll have to take special care to re-encrypt. To decrypt data encrypted with Encryptor v2.0.0 using an AES-\*-GCM algorithm you can use the `:v2_gcm_iv` option.
 
@@ -420,7 +420,7 @@ It is recommended that you implement a strategy to insure that you do not mix th
     attr_encrypted :ssn, key: :encryption_key, v2_gcm_iv: is_decrypting?(:ssn)
 
     def is_decrypting?(attribute)
-      encrypted_attributes[attribute][:operation] == :decrypting
+      attr_encrypted_encrypted_attributes[attribute][:operation] == :decrypting
     end
   end
 
@@ -437,7 +437,7 @@ It is recommended that you implement a strategy to insure that you do not mix th
 While choosing to encrypt at the attribute level is the most secure solution, it is not without drawbacks. Namely, you cannot search the encrypted data, and because you can't search it, you can't index it either. You also can't use joins on the encrypted data. Data that is securely encrypted is effectively noise. So any operations that rely on the data not being noise will not work. If you need to do any of the aforementioned operations, please consider using database and file system encryption along with transport encryption as it moves through your stack.
 
 #### Data leaks
-Please also consider where your data leaks. If you're using attr_encrypted with Rails, it's highly likely that this data will enter your app as a request parameter. You'll want to be sure that you're filtering your request params from you logs or else your data is sitting in the clear in your logs. [Parameter Filtering in Rails](http://apidock.com/rails/ActionDispatch/Http/FilterParameters) Please also consider other possible leak points.
+Please also consider where your data leaks. If you're using attr_encrypted with Rails, it's highly likely that this data will enter your app as a request parameter. You'll want to be sure that you're filtering your request params from your logs or else your data is sitting in the clear in your logs. [Parameter Filtering in Rails](http://apidock.com/rails/ActionDispatch/Http/FilterParameters) Please also consider other possible leak points.
 
 #### Storage requirements
 When storing your encrypted data, please consider the length requirements of the db column that you're storing the cipher text in. Older versions of Mysql attempt to 'help' you by truncating strings that are too large for the column. When this happens, you will not be able to decrypt your data. [MySQL Strict Trans](http://www.davidpashley.com/2009/02/15/silently-truncated/)
